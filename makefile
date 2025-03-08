@@ -41,6 +41,22 @@ sh: ## Connect to the FrankenPHP container
 bash: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
 	@$(PHP_CONT) bash
 
+rectordry: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
+	@$(PHP_CONT) vendor/bin/rector process --dry-run
+
+rector: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
+	@$(PHP_CONT) vendor/bin/rector
+
+ecsdry: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
+	@$(PHP_CONT) vendor/bin/ecs
+
+ecs: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
+	@$(PHP_CONT) vendor/bin/ecs --fix
+
+codestyle: rectordry ecsdry
+
+fixCodestyle: rector ecs
+
 test: ## Start tests with phpunit, pass the parameter "c=" to add options to phpunit, example: make test c="--group e2e --stop-on-failure"
 	@$(eval c ?=)
 	@$(DOCKER_COMP) exec -e APP_ENV=test php bin/phpunit $(c)
